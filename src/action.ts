@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import {executeWebhook} from '../lib/discord/webhook'
-import {readFileSync} from 'fs'
+import {readFileSync} from 'node:fs'
 
 const WEBHOOK_URL = 'webhook-url'
 const CONTENT = 'content'
@@ -19,6 +19,7 @@ const FILENAME = 'filename'
 const THREAD_ID = 'thread-id'
 const THREAD_NAME = 'thread-name'
 const FLAGS = 'flags'
+const TTS = 'tts'
 const WAIT = 'wait'
 
 const TOP_LEVEL_WEBHOOK_KEYS = [
@@ -26,7 +27,8 @@ const TOP_LEVEL_WEBHOOK_KEYS = [
   USERNAME,
   AVATAR_URL,
   FLAGS,
-  THREAD_NAME
+  THREAD_NAME,
+  TTS
 ]
 const EMBED_KEYS = [TITLE, DESCRIPTION, TIMESTAMP, COLOR, URL]
 const EMBED_AUTHOR_KEYS = [NAME, URL, ICON_URL]
@@ -100,25 +102,35 @@ function parseMapFromParameters(
 
   for (const parameter of parameters) {
     const inputKey =
-      inputObjectKey !== '' ? `${inputObjectKey}-${parameter}` : parameter
-    let value = core.getInput(inputKey)
+      inputObjectKey === '' ? parameter : `${inputObjectKey}-${parameter}`
+    const value = core.getInput(inputKey)
     if (value === '') {
       continue
     }
 
+    let parsedValue: unknown = value
+
     if (parameter === TIMESTAMP) {
       const parsedDate = new Date(value)
-      value = parsedDate.toISOString()
+      parsedValue = parsedDate.toISOString()
     }
 
     if (parameter === DESCRIPTION) {
       if (value.length > DESCRIPTION_LIMIT) {
-        value = value.substring(0, DESCRIPTION_LIMIT)
+        parsedValue = value.substring(0, DESCRIPTION_LIMIT)
       }
     }
 
+    if (parameter === COLOR || parameter === FLAGS) {
+      parsedValue = parseInt(value, 10)
+    }
+
+    if (parameter === TTS) {
+      parsedValue = value.toLowerCase() === 'true'
+    }
+
     core.info(`${inputKey}: ${value}`)
-    if (value.length > 0) parameterMap.set(parameter.replace('-', '_'), value)
+    parameterMap.set(parameter.replaceAll('-', '_'), parsedValue)
   }
 
   return parameterMap
