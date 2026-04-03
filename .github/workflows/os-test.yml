@@ -4,26 +4,29 @@ on:
   pull_request:
   push:
     branches:
-      - main
+      - madrona-main
       - 'releases/*'
   workflow_dispatch:
 
 jobs:
   test: # make sure the action works on a clean machine without building
     strategy:
-      max-parallel: 2
+      max-parallel: 5
       matrix:
         os:
           - windows-latest
+          - windows-2025
           - windows-2022
-          - windows-2019
+          - ubuntu-latest
+          - ubuntu-24.04
           - ubuntu-22.04
-          - ubuntu-20.04
-          - macos-12
-          - macos-11
+          - macos-latest
+          - macos-26
+          - macos-15
+          - macos-14
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Upload File
         uses: ./
         with:
