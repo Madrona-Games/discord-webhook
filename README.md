@@ -1,6 +1,6 @@
 # Discord Webhook Action
 
-[![Runs on All Action Runners](https://github.com/tsickert/discord-webhook/actions/workflows/os-test.yml/badge.svg?branch=master)](https://github.com/tsickert/discord-webhook/actions/workflows/os-test.yml)
+[![Runs on All Action Runners](https://github.com/Madrona-Games/discord-webhook/actions/workflows/os-test.yml/badge.svg?branch=master)](https://github.com/Madrona-Games/discord-webhook/actions/workflows/os-test.yml)
 
 This action allows users to set up a GitHub Action that calls Discord webhooks with content message and, optionally, a custom username and avatar url.
 
@@ -49,7 +49,7 @@ Want to know more about Discord Webhooks? Check out the [intro](https://support.
 
 ## Usage
 
-Want to see some full examples? Check out the [`test`](https://github.com/tsickert/discord-webhook/blob/4543a29f31afb1608487e8d9cb3d380975669316/.github/workflows/test.yml) workflow!
+Want to see some full examples? Check out the [`test`](https://github.com/Madrona-Games/discord-webhook/blob/4543a29f31afb1608487e8d9cb3d380975669316/.github/workflows/test.yml) workflow!
 
 ### Secrets
 
@@ -72,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Discord Webhook Action
-      uses: tsickert/discord-webhook@v7.0.0
+      uses: Madrona-Games/discord-webhook@v8.0.0
       with:
         webhook-url: ${{ secrets.WEBHOOK_URL }}
         content: "Test"
@@ -91,7 +91,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Discord Webhook Action
-      uses: tsickert/discord-webhook@v7.0.0
+      uses: Madrona-Games/discord-webhook@v8.0.0
       with:
         webhook-url: ${{ secrets.WEBHOOK_URL }}
         content: "Test"
@@ -155,7 +155,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Discord Webhook Action
-        uses: tsickert/discord-webhook@v7.0.0
+        uses: Madrona-Games/discord-webhook@v8.0.0
         with:
           webhook-url: ${{ secrets.WEBHOOK_URL }}
           raw-data: hi.json
@@ -199,7 +199,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Discord Webhook Action
-        uses: tsickert/discord-webhook@v7.0.0
+        uses: Madrona-Games/discord-webhook@v8.0.0
         with:
           webhook-url: ${{ secrets.WEBHOOK_URL }}
           filename: test.txt
